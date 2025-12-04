@@ -1,35 +1,36 @@
-import { Card, CardContent, Stack, Button, Divider, Alert, Typography } from '@mui/material';
-import { useConnect, useConnectors } from 'wagmi';
+import { Card, CardContent, Stack, Button, Typography, Divider, Alert } from '@mui/material';
 
-export default function ConnectWalletCard() {
-  const { connect, status, error } = useConnect();
-  const connectors = useConnectors();
+interface ConnectWalletCardProps {
+  status: 'idle' | 'pending' | 'error' | 'success';
+  error: Error | null;
+  connect: () => void;
+}
 
+export default function ConnectWalletCard({ status, error, connect }: ConnectWalletCardProps) {
   const getStatusSeverity = (status: string) =>
     status === 'error' || status === 'success' ? status : 'info';
 
   return (
-    <Card>
+    <Card sx={{ mb: 3 }}>
       <CardContent>
-        <Typography variant="h6" gutterBottom>Connect Wallet</Typography>
-        <Stack direction="row" spacing={2} sx={{ mb: 1 }}>
-          {connectors.map(connector => (
-            <Button
-              key={connector.uid}
-              variant="contained"
-              color="primary"
-              sx={{ flex: 1 }}
-              onClick={() => connect({ connector })}
-            >
-              {connector.name}
-            </Button>
-          ))}
+        <Typography variant="h6" gutterBottom>
+          Connect Wallet
+        </Typography>
+
+        <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+          <Button
+            variant="contained"
+            sx={{ flex: 1 }}
+            onClick={connect}
+          >
+            Connect Wallet
+          </Button>
         </Stack>
 
-        <Divider sx={{ my: 1 }} />
+        <Divider sx={{ my: 2 }} />
 
-        {!error && status && <Alert severity={getStatusSeverity(status)} sx={{ mt: 1 }}>{status}</Alert>}
-        {error && <Alert severity="error" sx={{ mt: 1 }}>{error.message}</Alert>}
+        {!error && status && <Alert severity={getStatusSeverity(status)}>{status}</Alert>}
+        {error && <Alert severity="error">{error.message}</Alert>}
       </CardContent>
     </Card>
   );

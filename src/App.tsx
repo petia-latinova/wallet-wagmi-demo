@@ -1,27 +1,43 @@
-import { Container, Typography, Card, CardContent } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import WalletConnectionCard from './components/WalletConnectionCard';
 import ConnectWalletCard from './components/ConnectWalletCard';
-import UsdcPanel from './components/UsdcPanel';
-import { useConnection } from 'wagmi';
+import UsdcCard from './components/UsdcCard';
+import { useConnection, useConnect, useDisconnect, useBalance } from 'wagmi';
+import { injected } from '@wagmi/connectors';
 
 function App() {
-  const { addresses } = useConnection();
-  const address = addresses?.[0];
+  const connection = useConnection();
+  const { status, error, connect } = useConnect();
+  const { disconnect } = useDisconnect();
+  const address = connection.addresses?.[0];
+  const { data: balance, isLoading } = useBalance({ address });
+
+  const handleConnect = () => {
+    connect({ connector: injected() });
+  };
 
   return (
     <Container maxWidth="sm" sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>Wagmi Demo</Typography>
+      <Typography variant="h4" gutterBottom>
+        Wagmi Demo
+      </Typography>
 
-      <WalletConnectionCard />
-      <ConnectWalletCard />
-
-      {address && (
-        <Card sx={{ mt: 3 }}>
-          <CardContent>
-            <UsdcPanel address={address} />
-          </CardContent>
-        </Card>
+      {connection.status !== 'connected' && (
+        <ConnectWalletCard
+          status={status}
+          error={error}
+          connect={handleConnect}
+        />
       )}
+
+      <WalletConnectionCard
+        connection={connection}
+        balance={balance}
+        isLoading={isLoading}
+        disconnect={disconnect}
+      />
+
+      <UsdcCard address={address} />
     </Container>
   );
 }
