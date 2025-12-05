@@ -1,4 +1,4 @@
-import { Card, CardContent, Stack, Button, CircularProgress, Typography } from '@mui/material';
+import { Card, CardContent, Stack, Button, Typography } from '@mui/material';
 import { useBalance, useConnection } from 'wagmi';
 import { formatEther } from 'viem';
 import InfoItem from './InfoItem';
@@ -11,7 +11,7 @@ interface WalletConnectionCardProps {
 }
 
 export default function WalletConnectionCard({ connection, disconnect, address }: WalletConnectionCardProps) {
-  const { data: balance, isLoading, refetch } = useBalance({ address });
+  const { data: balance, refetch } = useBalance({ address });
 
   useBalanceAutoRefetch(refetch);
 
@@ -33,7 +33,13 @@ export default function WalletConnectionCard({ connection, disconnect, address }
           <InfoItem label="Address" value={JSON.stringify(connection.addresses?.[0])} />
           <InfoItem
             label="Balance"
-            value={isLoading ? <CircularProgress size={14} /> : formattedBalance ? `${formattedBalance.formatted} ${formattedBalance.symbol}` : 'Not connected'}
+            value={
+              !address
+              ? '0'  // wallet NOT connected → show 0
+              : formattedBalance
+              ? `${formattedBalance.formatted} ${formattedBalance.symbol}` // real balance
+              : '0' // still loading or no data
+            }
           />
         </Stack>
 

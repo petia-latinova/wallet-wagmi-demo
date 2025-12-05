@@ -27,6 +27,8 @@ export default function UsdcCard({ address }: UsdcCardProps) {
 
   useBalanceAutoRefetch(refetch);
 
+  const isWalletConnected = Boolean(address);
+
   const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -115,7 +117,7 @@ export default function UsdcCard({ address }: UsdcCardProps) {
         <Button
           variant="contained"
           sx={{ mt: 2 }}
-          disabled={isSending}
+          disabled={!isWalletConnected || isSending}
           onClick={handleSendUsdc}
         >
           {isSending ? 'Sending...' : 'Send USDC'}
