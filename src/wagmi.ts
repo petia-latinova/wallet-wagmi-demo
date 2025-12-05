@@ -1,6 +1,6 @@
-import { createConfig, http } from 'wagmi'
-import { mainnet, sepolia } from 'wagmi/chains'
-import { injected } from 'wagmi/connectors'
+import { createConfig, http } from 'wagmi';
+import { mainnet, sepolia } from 'wagmi/chains';
+import { injected } from 'wagmi/connectors';
 
 export const config = createConfig({
   chains: [mainnet, sepolia],
@@ -11,10 +11,10 @@ export const config = createConfig({
     [mainnet.id]: http(),
     [sepolia.id]: http(),
   },
-})
+});
 
 declare module 'wagmi' {
   interface Register {
-    config: typeof config
+    config: typeof config;
   }
 }

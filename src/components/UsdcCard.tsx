@@ -1,13 +1,5 @@
 import { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Alert,
-  Stack,
-  TextField
-} from '@mui/material';
+import { Card, CardContent, Typography, Button, Alert, Stack, TextField } from '@mui/material';
 
 import { useReadContract, useWriteContract } from 'wagmi';
 import { parseUnits, isAddress } from 'viem';
@@ -57,8 +49,7 @@ export default function UsdcCard({ address }: UsdcCardProps) {
       return;
     }
 
-    const balanceNum =
-      usdcBalance ? Number(usdcBalance) / 10 ** USDC_DECIMALS : 0;
+    const balanceNum = usdcBalance ? Number(usdcBalance) / 10 ** USDC_DECIMALS : 0;
 
     if (amountNum > balanceNum) {
       setErrorMessage('Insufficient USDC balance.');
@@ -82,9 +73,7 @@ export default function UsdcCard({ address }: UsdcCardProps) {
         <Stack spacing={1} sx={{ mb: 2 }}>
           <Typography>
             <strong>Balance:</strong>{' '}
-            {usdcBalance
-              ? Number(usdcBalance) / 10 ** USDC_DECIMALS
-              : '0'}
+            {usdcBalance ? Number(usdcBalance) / 10 ** USDC_DECIMALS : '0'}
           </Typography>
         </Stack>
 
