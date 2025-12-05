@@ -22,18 +22,10 @@ function App() {
       </Typography>
 
       {connection.status !== 'connected' && (
-        <ConnectWalletCard
-          status={status}
-          error={error}
-          connect={handleConnect}
-        />
+        <ConnectWalletCard status={status} error={error} connect={handleConnect} />
       )}
 
-      <WalletConnectionCard
-        connection={connection}
-        address={address}
-        disconnect={disconnect}
-      />
+      <WalletConnectionCard connection={connection} address={address} disconnect={disconnect} />
 
       <UsdcCard address={address} />
     </Container>

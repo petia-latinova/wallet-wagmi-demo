@@ -6,11 +6,15 @@ import { useBalanceAutoRefetch } from '../hooks/useBalanceAutoRefetch';
 
 interface WalletConnectionCardProps {
   connection: ReturnType<typeof useConnection>;
-  address?: `0x${string}`,
+  address?: `0x${string}`;
   disconnect: () => void;
 }
 
-export default function WalletConnectionCard({ connection, disconnect, address }: WalletConnectionCardProps) {
+export default function WalletConnectionCard({
+  connection,
+  disconnect,
+  address,
+}: WalletConnectionCardProps) {
   const { data: balance, refetch } = useBalance({ address });
 
   useBalanceAutoRefetch(refetch);
@@ -25,7 +29,9 @@ export default function WalletConnectionCard({ connection, disconnect, address }
   return (
     <Card sx={{ mb: 3 }}>
       <CardContent>
-        <Typography variant="h6" gutterBottom>Connection</Typography>
+        <Typography variant="h6" gutterBottom>
+          Connection
+        </Typography>
         <Stack spacing={1}>
           <InfoItem label="Status" value={connection.status} />
           <InfoItem label="Network" value={connection.chain?.name} />
@@ -35,10 +41,10 @@ export default function WalletConnectionCard({ connection, disconnect, address }
             label="Balance"
             value={
               !address
-              ? '0'  // wallet NOT connected → show 0
-              : formattedBalance
-              ? `${formattedBalance.formatted} ${formattedBalance.symbol}` // real balance
-              : '0' // still loading or no data
+                ? '0' // wallet NOT connected → show 0
+                : formattedBalance
+                  ? `${formattedBalance.formatted} ${formattedBalance.symbol}` // real balance
+                  : '0' // still loading or no data
             }
           />
         </Stack>

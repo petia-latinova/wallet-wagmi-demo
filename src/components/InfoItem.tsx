@@ -8,7 +8,10 @@ interface InfoItemProps {
 export default function InfoItem({ label, value }: InfoItemProps) {
   return (
     <Typography>
-      <Typography component="span" fontWeight="bold">{label}:</Typography> {value}
+      <Typography component="span" fontWeight="bold">
+        {label}:
+      </Typography>{' '}
+      {value}
     </Typography>
   );
 }

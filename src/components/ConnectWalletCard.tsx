@@ -18,11 +18,7 @@ export default function ConnectWalletCard({ status, error, connect }: ConnectWal
         </Typography>
 
         <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
-          <Button
-            variant="contained"
-            sx={{ flex: 1 }}
-            onClick={connect}
-          >
+          <Button variant="contained" sx={{ flex: 1 }} onClick={connect}>
             Connect Wallet
           </Button>
         </Stack>
