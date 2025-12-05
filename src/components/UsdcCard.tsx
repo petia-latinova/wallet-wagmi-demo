@@ -12,17 +12,20 @@ import {
 import { useReadContract, useWriteContract } from 'wagmi';
 import { parseUnits, isAddress } from 'viem';
 import { usdcContract, USDC_DECIMALS } from '../contracts/usdc';
+import { useBalanceAutoRefetch } from '../hooks/useBalanceAutoRefetch';
 
 interface UsdcCardProps {
   address?: `0x${string}`;
 }
 
 export default function UsdcCard({ address }: UsdcCardProps) {
-  const { data: usdcBalance } = useReadContract({
+  const { data: usdcBalance, refetch } = useReadContract({
     ...usdcContract,
     functionName: 'balanceOf',
     args: address ? [address] : undefined,
   });
+
+  useBalanceAutoRefetch(refetch);
 
   const [recipient, setRecipient] = useState('');
   const [amount, setAmount] = useState('');
@@ -71,7 +74,7 @@ export default function UsdcCard({ address }: UsdcCardProps) {
     <Card sx={{ mb: 3 }}>
       <CardContent sx={{ pb: 2 }}>
         <Typography variant="h6" gutterBottom>
-          USDC (Testnet)
+          USDC
         </Typography>
 
         <Stack spacing={1} sx={{ mb: 2 }}>

@@ -2,7 +2,7 @@ import { Container, Typography } from '@mui/material';
 import WalletConnectionCard from './components/WalletConnectionCard';
 import ConnectWalletCard from './components/ConnectWalletCard';
 import UsdcCard from './components/UsdcCard';
-import { useConnection, useConnect, useDisconnect, useBalance } from 'wagmi';
+import { useConnection, useConnect, useDisconnect } from 'wagmi';
 import { injected } from '@wagmi/connectors';
 
 function App() {
@@ -10,7 +10,6 @@ function App() {
   const { status, error, connect } = useConnect();
   const { disconnect } = useDisconnect();
   const address = connection.addresses?.[0];
-  const { data: balance, isLoading } = useBalance({ address });
 
   const handleConnect = () => {
     connect({ connector: injected() });
@@ -32,8 +31,7 @@ function App() {
 
       <WalletConnectionCard
         connection={connection}
-        balance={balance}
-        isLoading={isLoading}
+        address={address}
         disconnect={disconnect}
       />
 
